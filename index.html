@@ -1,1 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💌 Valentine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;height:100vh;
+  font-family:'Playfair Display',serif;
+  background:radial-gradient(circle at top,#2b0f17,#0d0508);
+  overflow:hidden;
+}
+.page{
+  position:absolute;inset:0;
+  display:flex;justify-content:center;align-items:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 1s ease;
+}
+.page.active{opacity:1;pointer-events:auto}
+
+.envelope{
+  width:90vw;max-width:420px;aspect-ratio:3/2;
+  background:linear-gradient(145deg,#4a0f1f,#7b1e34,#4a0f1f);
+  border-radius:24px;
+  position:relative;cursor:pointer;
+  box-shadow:0 40px 90px rgba(0,0,0,.8);
+}
+.flap{
+  position:absolute;top:0;left:0;right:0;height:62%;
+  background:linear-gradient(to bottom,#a33a52,#6b1a2e);
+  clip-path:polygon(0 0,100% 0,96% 72%,50% 100%,4% 72%);
+  transform-origin:top center;
+  transition:transform 1.2s ease;
+}
+.envelope.open .flap{transform:rotateX(160deg)}
+.envelopeText{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Great Vibes',cursive;
+  font-size:38px;color:#f8e4d2;
+}
+
+.letter{
+  width:90vw;max-width:560px;
+  padding:40px;
+  background:#f7e6c4;
+  border-radius:26px;
+  box-shadow:0 30px 70px rgba(0,0,0,.4);
+  text-align:center;
+}
+.letter h1{
+  font-family:'Great Vibes',cursive;
+  font-size:42px;
+}
+.btn{
+  margin-top:30px;
+  padding:14px 34px;
+  border:none;border-radius:18px;
+  font-size:18px;
+  background:#7b1e34;color:white;
+}
+
+.finalText{
+  font-family:'Great Vibes',cursive;
+  font-size:64px;
+  color:#7a1432;
+}
+.finalText span{
+  opacity:0;display:inline-block;
+  animation:pop .5s forwards;
+}
+@keyframes pop{
+  from{transform:scale(.3);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" preload="auto">
+  <source src="Tum_Hi_Ho_Instrumental_Ringtone,_Tum_Hi_Ho_Aashiqui_2_Ringtone,_Tum_Hi_Ho_Status_320k.mp3" type="audio/mpeg">
+</audio>
+
+<div class="page active" id="envelopePage">
+  <div class="envelope" onclick="openEnvelope()">
+    <div class="flap"></div>
+    <div class="envelopeText">Tap to Open 💌</div>
+  </div>
+</div>
+
+<div class="page" id="page1">
+  <div class="letter">
+    <h1>Heyy Buntyyy ga.. 💕</h1>
+    <p>This is not a letter…<br>It’s my love in pixels.</p>
+    <button class="btn" onclick="showFinal()">Next 💖</button>
+  </div>
+</div>
+
+<div class="page" id="finalPage">
+  <div class="finalText" id="finalText"></div>
+</div>
+
+<script>
+let music=document.getElementById("bgMusic");
+
+function fadeInMusic(){
+  music.volume=0;
+  music.play();
+  let v=0;
+  let fade=setInterval(()=>{
+    if(v<0.8){v+=0.02;music.volume=v;}
+    else clearInterval(fade);
+  },200);
+}
+
+function fadeOutMusic(){
+  let v=music.volume;
+  let fade=setInterval(()=>{
+    if(v>0){v-=0.02;music.volume=v;}
+    else{music.pause();clearInterval(fade);}
+  },200);
+}
+
+function openEnvelope(){
+  document.querySelector('.envelope').classList.add('open');
+  fadeInMusic();
+  setTimeout(()=>showPage('page1'),1200);
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showFinal(){
+  showPage('finalPage');
+  typeText();
+  setTimeout(fadeOutMusic,6000);
+}
+
+function typeText(){
+  const text="Happy Valentine’s Day 💝";
+  const box=document.getElementById("finalText");
+  box.innerHTML="";
+  [...text].forEach((c,i)=>{
+    let s=document.createElement("span");
+    s.textContent=c;
+    s.style.animationDelay=i*0.08+"s";
+    box.appendChild(s);
+  });
+}
+</script>
+
+</body>
+</html>
