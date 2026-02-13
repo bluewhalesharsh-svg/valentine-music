@@ -10,48 +10,70 @@
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;height:100vh;
+  margin:0;
+  height:100vh;
   font-family:'Playfair Display',serif;
   background:radial-gradient(circle at top,#2b0f17,#0d0508);
   overflow:hidden;
 }
 .page{
-  position:absolute;inset:0;
-  display:flex;justify-content:center;align-items:center;
-  opacity:0;pointer-events:none;
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
   transition:opacity 1s ease;
 }
-.page.active{opacity:1;pointer-events:auto}
+.page.active{
+  opacity:1;
+  pointer-events:auto;
+}
 
+/* Envelope */
 .envelope{
-  width:90vw;max-width:420px;aspect-ratio:3/2;
+  width:90vw;
+  max-width:420px;
+  aspect-ratio:3/2;
   background:linear-gradient(145deg,#4a0f1f,#7b1e34,#4a0f1f);
   border-radius:24px;
-  position:relative;cursor:pointer;
+  position:relative;
+  cursor:pointer;
   box-shadow:0 40px 90px rgba(0,0,0,.8);
 }
 .flap{
-  position:absolute;top:0;left:0;right:0;height:62%;
+  position:absolute;
+  top:0;left:0;right:0;
+  height:62%;
   background:linear-gradient(to bottom,#a33a52,#6b1a2e);
   clip-path:polygon(0 0,100% 0,96% 72%,50% 100%,4% 72%);
   transform-origin:top center;
   transition:transform 1.2s ease;
 }
-.envelope.open .flap{transform:rotateX(160deg)}
+.envelope.open .flap{
+  transform:rotateX(160deg);
+}
 .envelopeText{
-  position:absolute;inset:0;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   font-family:'Great Vibes',cursive;
-  font-size:38px;color:#f8e4d2;
+  font-size:42px;
+  color:#f8e4d2;
 }
 
+/* Letter */
 .letter{
-  width:90vw;max-width:560px;
-  padding:40px;
+  width:90vw;
+  max-width:560px;
   background:#f7e6c4;
+  padding:40px;
   border-radius:26px;
-  box-shadow:0 30px 70px rgba(0,0,0,.4);
   text-align:center;
+  box-shadow:0 30px 70px rgba(0,0,0,.4);
 }
 .letter h1{
   font-family:'Great Vibes',cursive;
@@ -60,18 +82,23 @@ body{
 .btn{
   margin-top:30px;
   padding:14px 34px;
-  border:none;border-radius:18px;
+  border:none;
+  border-radius:18px;
   font-size:18px;
-  background:#7b1e34;color:white;
+  background:#7b1e34;
+  color:white;
+  cursor:pointer;
 }
 
+/* Final text */
 .finalText{
   font-family:'Great Vibes',cursive;
   font-size:64px;
   color:#7a1432;
 }
 .finalText span{
-  opacity:0;display:inline-block;
+  opacity:0;
+  display:inline-block;
   animation:pop .5s forwards;
 }
 @keyframes pop{
@@ -83,10 +110,12 @@ body{
 
 <body>
 
+<!-- MUSIC -->
 <audio id="bgMusic" preload="auto">
   <source src="Tum_Hi_Ho_Instrumental_Ringtone,_Tum_Hi_Ho_Aashiqui_2_Ringtone,_Tum_Hi_Ho_Status_320k.mp3" type="audio/mpeg">
 </audio>
 
+<!-- ENVELOPE PAGE -->
 <div class="page active" id="envelopePage">
   <div class="envelope" onclick="openEnvelope()">
     <div class="flap"></div>
@@ -94,6 +123,7 @@ body{
   </div>
 </div>
 
+<!-- LETTER PAGE -->
 <div class="page" id="page1">
   <div class="letter">
     <h1>Heyy Buntyyy ga.. 💕</h1>
@@ -102,28 +132,29 @@ body{
   </div>
 </div>
 
+<!-- FINAL PAGE -->
 <div class="page" id="finalPage">
   <div class="finalText" id="finalText"></div>
 </div>
 
 <script>
-let music=document.getElementById("bgMusic");
+const music=document.getElementById("bgMusic");
 
 function fadeInMusic(){
   music.volume=0;
   music.play();
   let v=0;
-  let fade=setInterval(()=>{
+  const i=setInterval(()=>{
     if(v<0.8){v+=0.02;music.volume=v;}
-    else clearInterval(fade);
+    else clearInterval(i);
   },200);
 }
 
 function fadeOutMusic(){
   let v=music.volume;
-  let fade=setInterval(()=>{
+  const i=setInterval(()=>{
     if(v>0){v-=0.02;music.volume=v;}
-    else{music.pause();clearInterval(fade);}
+    else{music.pause();clearInterval(i);}
   },200);
 }
 
@@ -149,7 +180,7 @@ function typeText(){
   const box=document.getElementById("finalText");
   box.innerHTML="";
   [...text].forEach((c,i)=>{
-    let s=document.createElement("span");
+    const s=document.createElement("span");
     s.textContent=c;
     s.style.animationDelay=i*0.08+"s";
     box.appendChild(s);
